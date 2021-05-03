@@ -6,14 +6,21 @@ all: start
 docker-all: docker-build docker-start
 	@echo "DONE"
 
+docker-alli: docker-build docker-inter
+	@echo "Done INTER"
+
 docker-build:
 	@echo "building the image from docker file..."
-	docker build --no-cache --pull -t tbalson/cpu .
+	docker build --pull -t predict_demo .
 	@echo "image DONE"
 
 docker-start:
 	@echo "starting the NEW service in container..."
-	docker run  -p 8080:8080 tbalson/cpu
+	docker run  -p 8080:8080 predict_demo
+
+docker-inter:
+	@echo "starting the NEW service in container interactively..."
+	docker run  -p 8080:8080 -v C:\Users\Mubarak\github\lab6:/predict_test/ -it predict_demo
 
 service:
 	@echo "creating the service..."
@@ -33,7 +40,7 @@ docker-stop:
 
 docker-remove:
 	@echo "removing the image..."
-	docker rmi -f tbalson/cpu
+	docker rmi -f predict_demo
 	@echo "image removed"
 
 docker-clean: docker-stop docker-remove
